@@ -1,12 +1,11 @@
 "use client"
 import { useState } from 'react';
 import { Github, Linkedin, Mail, Phone, Send } from 'lucide-react';
+import { toast } from 'sonner';
 import PageTransition from '@/components/PageTransition';
-import { useToast } from "@/components/ui/use-toast";
 import TypewriterText from '@/components/TypewriterText';
 
 const Contact = () => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,23 +18,34 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data: { error?: string } = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message.');
+      }
+
+      toast.success("Message sent!", {
         description: "Thank you for your message. I'll get back to you soon.",
       });
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast.error("Could not send message", {
+        description: error instanceof Error ? error.message : 'Please try again later.',
       });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -77,11 +87,11 @@ const Contact = () => {
                 <div className="space-y-6">
                   <div className="flex items-center bg-black/20 backdrop-blur-sm p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
                     <Mail className="text-purple-300 mr-4" size={20} />
-                    <a 
-                      href="mailto:joywadhonkar4@gmail.com" 
+                    <a
+                      href="mailto:jayesh.wadhonkar@gmail.com"
                       className="text-light-gray hover:text-off-white transition-colors"
                     >
-                      joywadhonkar4@gmail.com
+                      jayesh.wadhonkar@gmail.com
                     </a>
                   </div>
                   

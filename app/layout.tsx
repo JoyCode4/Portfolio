@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import Navbar from "@/components/Navbar"
 import Footer  from "@/components/Footer"
 import { Toaster } from "sonner"
+import ErrorBoundary from "@/components/ErrorBoundary"
+import ExtensionErrorSuppressor from "@/components/ExtensionErrorSuppressor"
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -17,10 +19,13 @@ export default function RootLayout({
     return (
       <html lang="en" suppressHydrationWarning>
         <body>
-            <Navbar/>
-            <Toaster position="top-right" richColors/>
-            {children}
-            <Footer/>
+            <ErrorBoundary>
+              <ExtensionErrorSuppressor />
+              <Navbar/>
+              <Toaster position="top-right" richColors/>
+              {children}
+              <Footer/>
+            </ErrorBoundary>
         </body>
     </html>
   )

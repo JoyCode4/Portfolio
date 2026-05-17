@@ -33,7 +33,7 @@ const Footer = () => {
               <Linkedin size={20} />
             </a>
             <a 
-              href="mailto:joywadhonkar4@gmail.com" 
+              href="mailto:jayesh.wadhonkar@gmail.com"
               className="text-light-gray hover:text-off-white transition-colors"
               aria-label="Email"
             >

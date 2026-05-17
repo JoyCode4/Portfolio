@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"d:/My Porfolio/Website/Beta/vignettes-in-virtual\")",
+      "Read(//d/My Porfolio/Website/Beta/vignettes-in-virtual/**)"
+    ]
+  }
+}
